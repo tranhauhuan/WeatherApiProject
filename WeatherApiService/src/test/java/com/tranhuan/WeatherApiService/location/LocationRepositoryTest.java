@@ -1,5 +1,7 @@
 package com.tranhuan.WeatherApiService.location;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
@@ -39,4 +41,10 @@ class LocationRepositoryTest {
         assertThat(savedLocation.getCode()).isEqualTo("NYC_USA");
     }
 
+    @Test
+    void  testGetNonTrashedLocationsSuccess() {
+        List<Location> nonTrashedLocations = locationRepository.getNonTrashedLocations();
+        assertThat(nonTrashedLocations).isNotEmpty();
+        nonTrashedLocations.forEach(System.out::println);
+    }
 }

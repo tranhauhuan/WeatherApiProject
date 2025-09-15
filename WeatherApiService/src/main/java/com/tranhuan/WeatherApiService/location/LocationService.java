@@ -1,5 +1,7 @@
 package com.tranhuan.WeatherApiService.location;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.tranhuan.WeatherApiCommon.Location;
@@ -14,5 +16,8 @@ public class LocationService {
     }
     public Location add(Location location) {
         return locationRepository.save(location);
+    }
+    public List<Location> getNonTrashedLocations() {
+        return locationRepository.getNonTrashedLocations();
     }
 }
