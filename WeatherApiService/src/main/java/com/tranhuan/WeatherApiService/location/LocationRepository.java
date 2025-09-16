@@ -12,4 +12,7 @@ public interface LocationRepository extends JpaRepository<Location, String> {
 
     @Query("SELECT l FROM Location l WHERE l.trashed = false")
     List<Location> getNonTrashedLocations();
+
+    @Query("SELECT l FROM Location l WHERE l.trashed = false AND l.code = ?1")
+    Location getLocationByCode(String code);
 }

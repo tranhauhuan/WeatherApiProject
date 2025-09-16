@@ -20,4 +20,7 @@ public class LocationService {
     public List<Location> getNonTrashedLocations() {
         return locationRepository.getNonTrashedLocations();
     }
+    public Location getLocationByCode(String code) {
+        return locationRepository.getLocationByCode(code);
+    }
 }

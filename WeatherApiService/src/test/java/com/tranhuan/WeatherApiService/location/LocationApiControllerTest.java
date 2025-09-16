@@ -119,4 +119,34 @@ class LocationApiControllerTest {
 
     }
 
+    @Test
+    void testGetLocationShouldReturn404NotFound() throws Exception {
+        String code = "AAAAAAAAA";
+        String requestURI = END_POINT_PATH + "/" + code;
+
+        mockMvc.perform(get(requestURI))
+                .andExpect(status().isNotFound())
+                .andDo(print());
+    }
+
+    @Test
+    void testGetLocationShouldReturn200Oke() throws Exception {
+        String code = "NYC_USA";
+        Location location = new Location();
+        location.setCode(code);
+        location.setCityName("New York City");
+        location.setRegionName("New York");
+        location.setCountryCode("US");
+        location.setCountryName("United States of America");
+        location.setEnabled(true);
+        String requestURI = END_POINT_PATH + "/" + code;
+
+        Mockito.when(locationService.getLocationByCode(code)).thenReturn(location);
+        mockMvc.perform(get(requestURI))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$.code",is(code)))
+                .andExpect(jsonPath("$.city_name",is("New York City")))
+                .andDo(print());
+    }
 }

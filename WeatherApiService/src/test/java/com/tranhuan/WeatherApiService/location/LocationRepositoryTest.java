@@ -47,4 +47,19 @@ class LocationRepositoryTest {
         assertThat(nonTrashedLocations).isNotEmpty();
         nonTrashedLocations.forEach(System.out::println);
     }
+
+    @Test
+    void testGetLocationByCodeIsNull() {
+        String code = "AAAAA";
+        Location locationByCode = locationRepository.getLocationByCode(code);
+        assertThat(locationByCode).isNull();
+    }
+
+    @Test
+    void testGetLocationByCodeIsNotNull() {
+        String code = "NYC_USA";
+        Location locationByCode = locationRepository.getLocationByCode(code);
+        assertThat(locationByCode).isNotNull();
+        assertEquals(locationByCode.getCode(), code);
+    }
 }
