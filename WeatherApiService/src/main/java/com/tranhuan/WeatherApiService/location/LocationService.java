@@ -39,5 +39,13 @@ public class LocationService {
         locationFromDb.setEnabled(location.isEnabled());
         return locationRepository.save(locationFromDb);
     }
+    public void deleteLocation(String code) throws LocationNotFoundException {
+
+        Location locationFromDb = locationRepository.getLocationByCode(code);
+        if (locationFromDb==null) {
+            throw new LocationNotFoundException("No location found with the given code: " + code);
+        }
+        locationRepository.trashLocationByCode(code);
+    }
 }
 
