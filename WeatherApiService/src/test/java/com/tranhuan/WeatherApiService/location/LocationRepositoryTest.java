@@ -62,4 +62,12 @@ class LocationRepositoryTest {
         assertThat(locationByCode).isNotNull();
         assertEquals(locationByCode.getCode(), code);
     }
+
+    @Test
+    void testTrashLocationByCodeSuccess() {
+        String code = "NYC_USA";
+        locationRepository.trashLocationByCode(code);
+        Location locationByCode = locationRepository.getLocationByCode(code);
+        assertThat(locationByCode).isNull();
+    }
 }
