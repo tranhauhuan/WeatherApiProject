@@ -1,5 +1,6 @@
 package com.tranhuan.WeatherApiService.location;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 
 import com.tranhuan.WeatherApiCommon.Location;
+import com.tranhuan.WeatherApiCommon.RealtimeWeather;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -69,5 +71,29 @@ class LocationRepositoryTest {
         locationRepository.trashLocationByCode(code);
         Location locationByCode = locationRepository.getLocationByCode(code);
         assertThat(locationByCode).isNull();
+    }
+
+    @Test
+    void testAddRealtimeWeather() {
+        String code = "LACA_USA";
+
+        
+        Location locationByCode = locationRepository.getLocationByCode(code);
+        RealtimeWeather realtimeWeather = locationByCode.getRealtimeWeather();
+        if (realtimeWeather==null) {
+             realtimeWeather = new RealtimeWeather();
+             realtimeWeather.setLocation(locationByCode);
+             locationByCode.setRealtimeWeather(realtimeWeather);
+        }
+        realtimeWeather.setTemperature(25);
+        realtimeWeather.setHumidity(30);
+        realtimeWeather.setPrecipitation(40);
+        realtimeWeather.setStatus("sunny");
+        realtimeWeather.setWindSpeed(15);
+        realtimeWeather.setLastUpdated(new Date());
+
+        Location updatedLocation = locationRepository.save(locationByCode);
+
+        assertThat(updatedLocation.getRealtimeWeather().getLocationCode()).isEqualTo(code);
     }
 }
