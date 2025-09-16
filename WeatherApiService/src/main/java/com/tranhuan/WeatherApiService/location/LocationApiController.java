@@ -33,7 +33,7 @@ public class LocationApiController {
     }
 
     @GetMapping
-    ResponseEntity<?> getNonTrashedLocations() {
+      ResponseEntity<?> getNonTrashedLocations() {
         List<Location> nonTrashedLocations = locationService.getNonTrashedLocations();
         if(nonTrashedLocations.isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -48,5 +48,15 @@ public class LocationApiController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(locationByCode);
+    }
+
+    @PutMapping("/{code}")
+    ResponseEntity<?> updateLocation(@PathVariable String code, @RequestBody @Valid Location location) {
+        try {
+            Location updatedLocation = locationService.updateLocation(code, location);
+            return ResponseEntity.ok(updatedLocation);
+        } catch (LocationNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
